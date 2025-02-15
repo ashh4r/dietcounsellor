@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diet Counsellor - Your Nutrition Journey Starts Here</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4CAF50',
+                        secondary: '#8BC34A'
+                    },
+                    borderRadius: {
+                        'none': '0px',
+                        'sm': '4px',
+                        DEFAULT: '8px',
+                        'md': '12px',
+                        'lg': '16px',
+                        'xl': '20px',
+                        '2xl': '24px',
+                        '3xl': '32px',
+                        'full': '9999px',
+                        'button': '8px'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        :where([class^="ri-"])::before { content: "\f3c2"; }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+        .modal.show {
+            display: flex;
+        }
+        [type="checkbox"]:checked + label span:last-child {
+            background-color: #4CAF50;
+        }
+        [type="checkbox"]:checked + label span:last-child:before {
+            transform: translateX(1.75rem);
+        }
+    </style>
+</head>
+<body class="bg-white min-h-screen">
+    <header class="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm z-50 border-b border-gray-100">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <a href="#" class="text-2xl font-['Pacifico'] text-primary">Diet Counsellor</a>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#" class="text-gray-700 hover:text-primary transition-colors">Home</a>
+                    <a href="#plans" class="text-gray-700 hover:text-primary transition-colors">Plans</a>
+                    <a href="#blog" class="text-gray-700 hover:text-primary transition-colors">Blog</a>
+                    <a href="#about" class="text-gray-700 hover:text-primary transition-colors">About</a>
+                    <button onclick="openAppointmentModal()" class="bg-primary text-white px-6 py-2 !rounded-button hover:bg-primary/90 transition-colors whitespace-nowrap">Book Appointment</button>
+                </div>
+                <button class="md:hidden w-10 h-10 flex items-center justify-center">
+                    <i class="ri-menu-line text-2xl"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="pt-20">
+        <section class="relative h-[600px] bg-cover bg-center" style="background-image: url('https://public.readdy.ai/ai/img_res/948e895350beb008209d3cc3c309d7f5.jpg')">
+            <div class="absolute inset-0 bg-black/40"></div>
+            <div class="container mx-auto px-6 relative h-full">
+                <div class="flex flex-col justify-center h-full max-w-2xl text-white">
+                    <h1 class="text-5xl font-bold mb-6">Your Journey to Better Health Starts Here</h1>
+                    <p class="text-xl mb-8">Expert nutrition guidance tailored to your lifestyle. Transform your relationship with food and achieve your wellness goals.</p>
+                    <div class="flex space-x-4">
+                        <button onclick="openAppointmentModal()" class="bg-primary text-white px-8 py-3 !rounded-button hover:bg-primary/90 transition-colors whitespace-nowrap">Book Consultation</button>
+                        <a href="#plans" class="bg-white text-gray-900 px-8 py-3 !rounded-button hover:bg-gray-100 transition-colors whitespace-nowrap">View Plans</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="plans" class="py-20 bg-gray-50">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center mb-16">Nutrition Plans</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-white rounded-lg shadow-lg p-8">
+                        <div class="text-center mb-6">
+                            <h3 class="text-xl font-bold mb-2">Essential Plan</h3>
+                            <p class="text-3xl font-bold text-primary">$99<span class="text-sm text-gray-500">/month</span></p>
+                        </div>
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-center">
+                                <i class="ri-check-line text-primary mr-2"></i>
+                                <span>Personalized Meal Plan</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="ri-check-line text-primary mr-2"></i>
+                                <span>Monthly Consultation</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="ri-check-line text-primary mr-2"></i>
+                                <span>Basic Progress Tracking</span>
+                            </li>
+                        </ul>
+                        <button onclick="selectPlan('Essential')" class="w-full bg-primary text-white py-3 !rounded-button hover:bg-primary/90 transition-colors whitespace-nowrap">Choose Plan</button>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-lg p-8 transform scale-105 border-2 border-primary">
+                        <div class="text-center mb-6">
+                            <span class="bg-primary text-white px-4 py-1 rounded-full text-sm mb-4 inline-block">Most Popular</span>
+                            <h3 class="text-xl font-bold mb-2">Premium Plan</h3>
+                            <p class="text-3xl font-bold text-primary">$199<span class="text-sm text-gray-500">/month</span></p>
+                        </div>
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-center">
+                                <i class="ri-check-line text-primary mr-2"></i>
+                                <span>Everything in Essential</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="ri-check-line text-primary mr-2"></i>
+                                <span>Weekly Consultations</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="ri-check-line text-primary mr-2"></i>
+                                <span>Advanced Progress Tracking</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="ri-check-line text-primary mr-2"></i>
+                                <span>24/7 Support</span>
+                            </li>
+                        </ul>
+                        <button onclick="selectPlan('Premium')" class="w-full bg-primary text-white py-3 !rounded-button hover:bg-primary/90 transition-colors whitespace-nowrap">Choose Plan</button>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-lg p-8">
+                        <div class="text-center mb-6">
+                            <h3 class="text-xl font-bold mb-2">Elite Plan</h3>
+                            <p class="text-3xl font-bold text-primary">$299<span class="text-sm text-gray-500">/month</span></p>
+                        </div>
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-center">
+                                <i class="ri-check-line text-primary mr-2"></i>
+                                <span>Everything in Premium</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="ri-check-line text-primary mr-2"></i>
+                                <span>Daily Check-ins</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="ri-check-line text-primary mr-2"></i>
+                                <span>Personalized Workout Plan</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="ri-check-line text-primary mr-2"></i>
+                                <span>Priority Support</span>
+                            </li>
+                        </ul>
+                        <button onclick="selectPlan('Elite')" class="w-full bg-primary text-white py-3 !rounded-button hover:bg-primary/90 transition-colors whitespace-nowrap">Choose Plan</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="blog" class="py-20">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center mb-16">Latest Articles</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <article class="bg-white rounded-lg overflow-hidden shadow-lg">
+                        <img src="https://public.readdy.ai/ai/img_res/12ba4487e07e0e54bfb32f399cc2fa06.jpg" alt="Healthy breakfast" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="flex items-center mb-4">
+                                <span class="text-sm text-gray-500">5 min read</span>
+                                <span class="mx-2">•</span>
+                                <span class="text-sm text-primary">Nutrition</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">The Perfect Breakfast for Energy</h3>
+                            <p class="text-gray-600 mb-4">Discover how to create the ideal breakfast that will fuel your day and boost your metabolism.</p>
+                            <a href="#" class="text-primary hover:underline">Read More</a>
+                        </div>
+                    </article>
+                    <article class="bg-white rounded-lg overflow-hidden shadow-lg">
+                        <img src="https://public.readdy.ai/ai/img_res/08bfd03a5e507743f8492b7b6d347fc6.jpg" alt="Meal prep" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="flex items-center mb-4">
+                                <span class="text-sm text-gray-500">7 min read</span>
+                                <span class="mx-2">•</span>
+                                <span class="text-sm text-primary">Meal Prep</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">Meal Prep Mastery</h3>
+                            <p class="text-gray-600 mb-4">Learn the secrets to efficient meal preparation that saves time while maintaining nutritional value.</p>
+                            <a href="#" class="text-primary hover:underline">Read More</a>
+                        </div>
+                    </article>
+                    <article class="bg-white rounded-lg overflow-hidden shadow-lg">
+                        <img src="https://public.readdy.ai/ai/img_res/548aa7dd9c69d7dc9a8888c4837587df.jpg" alt="Mindful eating" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="flex items-center mb-4">
+                                <span class="text-sm text-gray-500">6 min read</span>
+                                <span class="mx-2">•</span>
+                                <span class="text-sm text-primary">Mindfulness</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">Mindful Eating Practices</h3>
+                            <p class="text-gray-600 mb-4">Explore the connection between mindfulness and nutrition for a healthier relationship with food.</p>
+                            <a href="#" class="text-primary hover:underline">Read More</a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 bg-gray-50">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center mb-16">What Our Clients Say</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-white p-8 rounded-lg shadow-lg">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold">JD</div>
+                            <div class="ml-4">
+                                <h4 class="font-bold">Jennifer Davis</h4>
+                                <p class="text-gray-500">Lost 20 lbs in 3 months</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-600">"The personalized approach and constant support made all the difference. I've never felt better!"</p>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-lg shadow-lg">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold">MR</div>
+                            <div class="ml-4">
+                                <h4 class="font-bold">Michael Rodriguez</h4>
+                                <p class="text-gray-500">Gained muscle mass</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-600">"The meal plans were perfect for my fitness goals. I've seen amazing results in just a few months."</p>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-lg shadow-lg">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold">SP</div>
+                            <div class="ml-4">
+                                <h4 class="font-bold">Sarah Parker</h4>
+                                <p class="text-gray-500">Improved energy levels</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-600">"Not only did I reach my weight goals, but I learned how to maintain a healthy lifestyle long-term."</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="font-['Pacifico'] text-2xl mb-4">Diet Counsellor</h3>
+                    <p class="text-gray-400">Your partner in achieving optimal health through personalized nutrition guidance.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Home</a></li>
+                        <li><a href="#plans" class="text-gray-400 hover:text-white">Plans</a></li>
+                        <li><a href="#blog" class="text-gray-400 hover:text-white">Blog</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-white">About</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Contact</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-center text-gray-400">
+                            <i class="ri-map-pin-line mr-2"></i>
+                            123 Nutrition St, Health City
+                        </li>
+                        <li class="flex items-center text-gray-400">
+                            <i class="ri-phone-line mr-2"></i>
+                            +1 234 567 890
+                        </li>
+                        <li class="flex items-center text-gray-400">
+                            <i class="ri-mail-line mr-2"></i>
+                            contact@dietcounsellor.com
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Newsletter</h4>
+                    <p class="text-gray-400 mb-4">Subscribe to get the latest nutrition tips and advice.</p>
+                    <form class="flex">
+                        <input type="email" placeholder="Your email" class="bg-gray-800 text-white px-4 py-2 rounded-l-button focus:outline-none">
+                        <button type="submit" class="bg-primary px-4 py-2 !rounded-r-button hover:bg-primary/90 transition-colors whitespace-nowrap">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 Diet Counsellor. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="appointmentModal" class="modal">
+        <div class="bg-white rounded-lg p-8 m-auto max-w-md w-full">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold">Book Appointment</h3>
+                <button onclick="closeAppointmentModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="ri-close-line text-2xl"></i>
+                </button>
+            </div>
+            <form id="appointmentForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                    <input type="text" required class="w-full px-4 py-2 border border-gray-300 rounded-button focus:outline-none focus:ring-2 focus:ring-primary">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <input type="email" required class="w-full px-4 py-2 border border-gray-300 rounded-button focus:outline-none focus:ring-2 focus:ring-primary">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Preferred Date</label>
+                    <input type="date" required class="w-full px-4 py-2 border border-gray-300 rounded-button focus:outline-none focus:ring-2 focus:ring-primary">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Consultation Type</label>
+                    <select required class="w-full px-4 py-2 border border-gray-300 rounded-button focus:outline-none focus:ring-2 focus:ring-primary">
+                        <option value="">Select type</option>
+                        <option value="initial">Initial Consultation</option>
+                        <option value="followup">Follow-up Session</option>
+                        <option value="assessment">Nutrition Assessment</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full bg-primary text-white py-3 !rounded-button hover:bg-primary/90 transition-colors whitespace-nowrap">Book Now</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openAppointmentModal() {
+            document.getElementById('appointmentModal').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeAppointmentModal() {
+            document.getElementById('appointmentModal').classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+
+        function selectPlan(plan) {
+            openAppointmentModal();
+        }
+
+        document.getElementById('appointmentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const successModal = document.createElement('div');
+            successModal.className = 'fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50';
+            successModal.innerHTML = `
+                <div class="bg-white p-8 rounded-lg max-w-md w-full">
+                    <div class="text-center">
+                        <i class="ri-check-line text-5xl text-primary mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2">Appointment Booked!</h3>
+                        <p class="text-gray-600 mb-6">We'll send you a confirmation email with all the details.</p>
+                        <button onclick="this.closest('.fixed').remove()" class="bg-primary text-white px-6 py-2 !rounded-button hover:bg-primary/90 transition-colors whitespace-nowrap">Close</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(successModal);
+            closeAppointmentModal();
+            this.reset();
+        });
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('appointmentModal');
+            if (event.target === modal) {
+                closeAppointmentModal();
+            }
+        }
+    </script>
+</body>
+</html>
